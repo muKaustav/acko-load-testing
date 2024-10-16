@@ -1,0 +1,40 @@
+services:
+  elasticsearch:
+    image: bitnami/elasticsearch:7.17.10
+    environment:
+      - ELASTICSEARCH_HEAP_SIZE=512m
+      - ELASTICSEARCH_USERNAME=acko
+      - ELASTICSEARCH_PASSWORD=acko
+      - xpack.security.enabled=true
+      - discovery.type=single-node
+    volumes:
+      - elasticsearch_data:/bitnami/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - userprofile
+
+  mongodb:
+    image: bitnami/mongodb:5.0.17
+    environment:
+      - MONGODB_ROOT_PASSWORD=acko
+      - MONGODB_USERNAME=acko
+      - MONGODB_PASSWORD=acko
+      - MONGODB_DATABASE=acko
+    volumes:
+      - mongodb_data:/bitnami/mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - userprofile
+
+networks:
+    userprofile:
+        driver: bridge
+
+volumes:
+  elasticsearch_data:
+    driver: local
+  mongodb_data:
+    driver: local
